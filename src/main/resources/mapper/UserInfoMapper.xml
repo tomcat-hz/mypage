@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hz.mapper.UserInfoMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="UserInfoEntity" id="userInfoMap">
+        <result property="id" column="id"/>
+        <result property="phone" column="phone"/>
+        <result property="school" column="school"/>
+        <result property="qq" column="qq"/>
+        <result property="job" column="job"/>
+        <result property="photo" column="photo"/>
+        <result property="hobby" column="hobby"/>
+        <result property="uid" column="uid"/>
+    </resultMap>
+  
+  <!--要查询的字段-->  
+  <sql id="sel_UserInfoColumns_List" > 
+  	  id ,        
+  phone ,        
+  school ,        
+  qq ,        
+  job ,        
+  photo ,        
+  hobby ,        
+  uid         
+  
+  </sql>
+  
+  <!--要添加的字段-->
+  <sql id="ins_UserInfoColumns_List" >
+       #{id},   #{phone},   #{school},   #{qq},   #{job},   #{photo},   #{hobby},   #{uid}   </sql> 
+  
+  <!--要修改的字段-->
+  <sql id="upd_UserInfoColumns_List" >
+    <set>
+    <if test="t.phone != null">phone = #{t.phone}, </if>
+    <if test="t.school != null">school = #{t.school}, </if>
+    <if test="t.qq != null">qq = #{t.qq}, </if>
+    <if test="t.job != null">job = #{t.job}, </if>
+    <if test="t.photo != null">photo = #{t.photo}, </if>
+    <if test="t.hobby != null">hobby = #{t.hobby}, </if>
+    <if test="t.uid != null">uid = #{t.uid}</if>
+	</set>
+	where id = #{t.id}
+  </sql> 
+  
+  <!--定义删除的条件-->
+  <sql id="del_UserInfoPramas_List">
+    <where>
+    <if test="t.id != null">and id = #{t.id}</if>
+    <if test="t.phone != null">and phone = #{t.phone}</if>
+    <if test="t.school != null">and school = #{t.school}</if>
+    <if test="t.qq != null">and qq = #{t.qq}</if>
+    <if test="t.job != null">and job = #{t.job}</if>
+    <if test="t.photo != null">and photo = #{t.photo}</if>
+    <if test="t.hobby != null">and hobby = #{t.hobby}</if>
+    <if test="t.uid != null">and uid = #{t.uid}</if>
+	</where>
+  </sql> 
+  
+  <!--定义查询的条件-->
+  <sql id="sel_UserInfoPramas_List">
+    <where>
+    <if test="t.id != null">and id = #{t.id}</if>
+    <if test="t.phone != null">and phone = #{t.phone}</if>
+    <if test="t.school != null">and school = #{t.school}</if>
+    <if test="t.qq != null">and qq = #{t.qq}</if>
+    <if test="t.job != null">and job = #{t.job}</if>
+    <if test="t.photo != null">and photo = #{t.photo}</if>
+    <if test="t.hobby != null">and hobby = #{t.hobby}</if>
+    <if test="t.uid != null">and uid = #{t.uid}</if>
+	</where>
+  </sql>
+
+    <!--添加-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info values (<include refid="ins_UserInfoColumns_List" />)
+    </insert>
+
+    <!--修改-->
+    <update id="update">
+        update user_info <include refid="upd_UserInfoColumns_List" />
+    </update>
+
+    <!--根据条件删除-->
+    <delete id="delete">
+        delete from user_info <include refid="del_UserInfoPramas_List" />
+    </delete>
+
+    <!--批量删除-->
+    <delete id="deleteBatch">
+        delete from user_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--根据主键id查询单个对象-->
+	<select id="queryObjectById" resultMap="userInfoMap">
+		select  <include refid="sel_UserInfoColumns_List" />  from user_info where id = #{id}
+	</select>
+	
+	<!--查询所有对象-->
+	<select id="queryAll" resultMap="userInfoMap">
+		select  <include refid="sel_UserInfoColumns_List" />  from user_info
+    </select>
+
+    <!--根据条件（无条件）查询多个对象-->
+	<select id="queryManyByPramas" resultMap="userInfoMap">
+		select  <include refid="sel_UserInfoColumns_List" />  from user_info <include refid="sel_UserInfoPramas_List" />
+	</select>
+	
+	<!--根据条件（无条件）分页查询-->
+	<select id="queryListByPramas" resultMap="userInfoMap">
+		select  <include refid="sel_UserInfoColumns_List" />  from user_info <include refid="sel_UserInfoPramas_List" /> order by id desc
+	</select>
+
+    <!--根据条件查询单条数据-->
+    <select id="queryObjectByPramas" resultMap="userInfoMap">
+        select  <include refid="sel_UserInfoColumns_List" />  from user_info <include refid="sel_UserInfoPramas_List" />
+    </select>
+	
+	<!--根据条件（无条件）查询数据条数-->
+ 	<select id="queryTotalByPramas" resultType="java.lang.Long">
+		select count(*) from user_info <include refid="sel_UserInfoPramas_List" />
+	</select>
+	
+
+
+</mapper>
