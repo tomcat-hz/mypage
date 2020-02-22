@@ -1,8 +1,9 @@
 package com.hz.model;
 
-import java.io.Serializable;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
+import java.io.Serializable;
 
 /**
  * 
